@@ -1,0 +1,32 @@
+name: Deploy Exercise 2
+on: [push, workflow_dispatch]
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get code
+        uses: actions/checkout@v3
+      - name: Install dependencies
+        run: npm ci
+      - name: Run Lint
+        run: npm run lint
+  test:
+    needs: lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get code
+        uses: actions/checkout@v3
+      - name: Install dependencies
+        run: npm ci
+      - name: Test code
+        run: npm run test
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get code
+        uses: actions/checkout@v3
+      - name: Install dependencies
+        run: npm ci
+      - name: Run Build
+        run: npm run build
